@@ -2,11 +2,17 @@
 
 class UserController {
     public function dashboard() {
-        // Mock user data
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /?page=login');
+            exit;
+        }
+
+        // User data from session
         $user = [
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'joined' => 'January 2023'
+            'name' => $_SESSION['user_name'],
+            'email' => $_SESSION['user_email'],
+            'joined' => 'N/A' 
         ];
 
         // Mock bookings data

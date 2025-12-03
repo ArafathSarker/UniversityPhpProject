@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Simple Router
 $page = $_GET['page'] ?? 'home';
 
@@ -10,6 +12,7 @@ require_once __DIR__ . '/../app/controllers/PageController.php';
 require_once __DIR__ . '/../app/controllers/AdminController.php';
 require_once __DIR__ . '/../app/controllers/CartController.php';
 require_once __DIR__ . '/../app/controllers/UserController.php';
+require_once __DIR__ . '/../app/config/Database.php';
 
 switch ($page) {
     case 'home':
@@ -32,6 +35,14 @@ switch ($page) {
     case 'signup':
         $controller = new AuthController();
         $controller->signup();
+        break;
+    case 'logout':
+        $controller = new AuthController();
+        $controller->logout();
+        break;
+    case 'admin_logout':
+        $controller = new AuthController();
+        $controller->adminLogout();
         break;
     case 'about':
         $controller = new PageController();
@@ -80,6 +91,13 @@ switch ($page) {
     case 'user_dashboard':
         $controller = new UserController();
         $controller->dashboard();
+        break;
+    case 'test_db':
+        $database = new Database();
+        $db = $database->connect();
+        if ($db) {
+            echo "Database Connected Successfully";
+        }
         break;
     default:
         // 404 Page could go here, but for now redirect to home

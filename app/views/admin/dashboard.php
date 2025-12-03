@@ -50,7 +50,7 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 flex bg-gray-700 p-4">
-                    <a href="/logout" class="flex-shrink-0 w-full group block">
+                    <a href="/?page=admin_logout" class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>
                                 <i class="fas fa-sign-out-alt inline-block h-9 w-9 rounded-full text-white pt-2 pl-2 bg-gray-600"></i>
