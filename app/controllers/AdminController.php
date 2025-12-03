@@ -1,6 +1,22 @@
 <?php
 
 class AdminController {
+    public function __construct() {
+        // Prevent caching for all admin pages
+        header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        header("Pragma: no-cache"); // HTTP 1.0.
+        header("Expires: 0"); // Proxies.
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['admin_id'])) {
+            header('Location: /?page=admin_login');
+            exit;
+        }
+    }
+
     public function dashboard() {
         // Mock data for dashboard stats
         $stats = [

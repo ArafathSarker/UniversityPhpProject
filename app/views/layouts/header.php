@@ -60,8 +60,13 @@
                     <i class="far fa-bell text-xl"></i>
                 </button>
                 <div class="ml-3 relative">
-                    <a href="/?page=login" class="text-gray-500 hover:text-primary font-medium text-sm mr-4">Log in</a>
-                    <a href="/?page=signup" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition duration-150 ease-in-out">Sign up</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <span class="text-gray-500 font-medium text-sm mr-4">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                        <a href="/?page=logout" class="text-gray-500 hover:text-primary font-medium text-sm">Logout</a>
+                    <?php else: ?>
+                        <a href="/?page=login" class="text-gray-500 hover:text-primary font-medium text-sm mr-4">Log in</a>
+                        <a href="/?page=signup" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition duration-150 ease-in-out">Sign up</a>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="-mr-2 flex items-center sm:hidden">

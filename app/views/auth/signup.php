@@ -16,7 +16,12 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form class="space-y-6" action="#" method="POST">
+            <?php if (!empty($error)): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline"><?php echo $error; ?></span>
+                </div>
+            <?php endif; ?>
+            <form class="space-y-6" action="/?page=signup" method="POST">
                 <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                     <div>
                         <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
