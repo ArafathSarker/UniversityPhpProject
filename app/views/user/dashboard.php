@@ -15,17 +15,17 @@
                         <a href="/?page=user_dashboard" class="block px-4 py-2 rounded-md bg-primary text-white font-medium shadow-md">
                             <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                         </a>
-                        <a href="#" class="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                        <a href="/?page=user_dashboard" class="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
                             <i class="fas fa-calendar-check mr-3"></i> My Bookings
                         </a>
-                        <a href="#" class="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                        <a href="#" onclick="alert('Favorites feature coming soon!'); return false;" class="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
                             <i class="fas fa-heart mr-3"></i> Favorites
                         </a>
-                        <a href="#" class="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                        <a href="/?page=user_settings" class="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
                             <i class="fas fa-cog mr-3"></i> Settings
                         </a>
                         <hr class="my-2">
-                        <a href="/?page=home" class="block px-4 py-2 rounded-md text-red-600 hover:bg-red-50">
+                        <a href="/?page=logout" class="block px-4 py-2 rounded-md text-red-600 hover:bg-red-50">
                             <i class="fas fa-sign-out-alt mr-3"></i> Logout
                         </a>
                     </nav>
@@ -42,7 +42,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-500">Total Bookings</p>
-                            <p class="text-2xl font-bold text-gray-900">12</p>
+                            <p class="text-2xl font-bold text-gray-900"><?php echo $total_bookings; ?></p>
                         </div>
                     </div>
                     <div class="bg-white shadow rounded-lg p-6 flex items-center">
@@ -51,7 +51,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-500">Hours Rented</p>
-                            <p class="text-2xl font-bold text-gray-900">48</p>
+                            <p class="text-2xl font-bold text-gray-900"><?php echo $hours_rented; ?></p>
                         </div>
                     </div>
                     <div class="bg-white shadow rounded-lg p-6 flex items-center">
@@ -60,7 +60,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-500">Total Spent</p>
-                            <p class="text-2xl font-bold text-gray-900">৳24,000</p>
+                            <p class="text-2xl font-bold text-gray-900">৳<?php echo $total_spent; ?></p>
                         </div>
                     </div>
                 </div>
@@ -75,23 +75,29 @@
                         <?php foreach ($bookings as $booking): ?>
                         <li class="p-6 hover:bg-gray-50 transition">
                             <div class="flex items-center">
-                                <img src="<?php echo $booking['image']; ?>" alt="Room" class="h-16 w-16 object-cover rounded-md">
+                                <img src="<?php echo $booking['room_image']; ?>" alt="Room" class="h-16 w-16 object-cover rounded-md">
                                 <div class="ml-4 flex-1">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h4 class="text-lg font-medium text-gray-900"><?php echo $booking['room_title']; ?></h4>
-                                            <p class="text-sm text-gray-500"><i class="far fa-calendar mr-1"></i> <?php echo $booking['date']; ?> | <i class="far fa-clock mr-1"></i> <?php echo $booking['time']; ?></p>
+                                            <p class="text-sm text-gray-500">
+                                                <i class="far fa-calendar mr-1"></i> <?php echo date('M d, Y', strtotime($booking['check_in'])); ?> | 
+                                                <i class="far fa-clock mr-1"></i> <?php echo date('h:i A', strtotime($booking['check_in'])); ?> - <?php echo date('h:i A', strtotime($booking['check_out'])); ?>
+                                            </p>
                                         </div>
                                         <span class="px-3 py-1 rounded-full text-xs font-medium <?php echo $booking['status'] === 'Confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'; ?>">
                                             <?php echo $booking['status']; ?>
                                         </span>
                                     </div>
                                     <div class="mt-2 flex justify-between items-center">
-                                        <p class="text-sm font-medium text-gray-900">Total: ৳<?php echo $booking['price']; ?></p>
-                                        <div class="space-x-2">
-                                            <button class="text-sm text-primary hover:text-secondary">View Details</button>
+                                        <p class="text-sm font-medium text-gray-900">Total: ৳<?php echo $booking['total_price']; ?></p>
+                                        <div class="space-x-2 flex items-center">
+                                            <a href="/?page=booking_details&id=<?php echo $booking['id']; ?>" class="text-sm text-primary hover:text-secondary">View Details</a>
                                             <?php if($booking['status'] === 'Pending'): ?>
-                                            <button class="text-sm text-red-600 hover:text-red-800">Cancel</button>
+                                            <form action="/?page=cancel_booking" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                                <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
+                                                <button type="submit" class="text-sm text-red-600 hover:text-red-800">Cancel</button>
+                                            </form>
                                             <?php endif; ?>
                                         </div>
                                     </div>

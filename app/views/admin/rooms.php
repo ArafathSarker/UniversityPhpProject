@@ -50,7 +50,7 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 flex bg-gray-700 p-4">
-                    <a href="/logout" class="flex-shrink-0 w-full group block">
+                    <a href="/?page=admin_logout" class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>
                                 <i class="fas fa-sign-out-alt inline-block h-9 w-9 rounded-full text-white pt-2 pl-2 bg-gray-600"></i>
@@ -86,7 +86,7 @@
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price/Hr</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                                 <th scope="col" class="relative px-6 py-3">
                                                     <span class="sr-only">Edit</span>
@@ -106,7 +106,7 @@
                                                     <div class="text-sm text-gray-500"><?php echo $room['type']; ?></div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    ৳<?php echo $room['price']; ?>
+                                                    ৳<?php echo $room['price']; ?>/<?php echo $room['rent_type'] == 'Monthly' ? 'mo' : 'day'; ?>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $room['status'] === 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
@@ -114,8 +114,8 @@
                                                     </span>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="#" class="text-primary hover:text-secondary mr-3">Edit</a>
-                                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                                    <a href="/?page=admin_edit_room&id=<?php echo $room['id']; ?>" class="text-primary hover:text-secondary mr-3">Edit</a>
+                                                    <a href="/?page=admin_delete_room&id=<?php echo $room['id']; ?>" onclick="return confirm('Are you sure you want to delete this room?');" class="text-red-600 hover:text-red-900">Delete</a>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

@@ -61,6 +61,9 @@
                 </button>
                 <div class="ml-3 relative">
                     <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="/?page=user_dashboard" class="text-gray-500 hover:text-primary font-medium text-sm mr-4" title="Dashboard">
+                            <i class="fas fa-tachometer-alt text-lg"></i>
+                        </a>
                         <span class="text-gray-500 font-medium text-sm mr-4">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                         <a href="/?page=logout" class="text-gray-500 hover:text-primary font-medium text-sm">Logout</a>
                     <?php else: ?>
