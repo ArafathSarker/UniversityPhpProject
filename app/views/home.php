@@ -96,7 +96,7 @@
                 <div class="flex-shrink-0 relative">
                     <img class="h-48 w-full object-cover" src="<?php echo $room['image']; ?>" alt="<?php echo $room['title']; ?>">
                     <div class="absolute top-4 right-4 bg-white px-2 py-1 rounded-md font-bold text-primary shadow-sm">
-                        ৳<?php echo $room['price']; ?>/hr
+                        ৳<?php echo $room['price']; ?>/<?php echo $room['rent_type'] == 'Monthly' ? 'mo' : 'day'; ?>
                     </div>
                 </div>
                 <div class="flex-1 bg-white p-6 flex flex-col justify-between">

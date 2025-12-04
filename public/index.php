@@ -68,13 +68,41 @@ switch ($page) {
         $controller = new AdminController();
         $controller->addRoom();
         break;
+    case 'admin_edit_room':
+        $controller = new AdminController();
+        $controller->editRoom();
+        break;
+    case 'admin_delete_room':
+        $controller = new AdminController();
+        $controller->deleteRoom();
+        break;
     case 'admin_users':
         $controller = new AdminController();
         $controller->users();
         break;
+    case 'admin_delete_user':
+        $controller = new AdminController();
+        $controller->deleteUser();
+        break;
     case 'admin_bookings':
         $controller = new AdminController();
         $controller->bookings();
+        break;
+    case 'admin_booking_details':
+        $controller = new AdminController();
+        $controller->bookingDetails();
+        break;
+    case 'admin_cancel_booking':
+        $controller = new AdminController();
+        $controller->cancelBooking();
+        break;
+    case 'admin_approve_booking':
+        $controller = new AdminController();
+        $controller->approveBooking();
+        break;
+    case 'booking_details':
+        $controller = new UserController();
+        $controller->bookingDetails();
         break;
     case 'cart':
         $controller = new CartController();
@@ -84,6 +112,14 @@ switch ($page) {
         $controller = new CartController();
         $controller->add();
         break;
+    case 'book_room':
+        $controller = new RoomController();
+        $controller->book();
+        break;
+    case 'cancel_booking':
+        $controller = new UserController();
+        $controller->cancelBooking();
+        break;
     case 'checkout':
         $controller = new CartController();
         $controller->checkout();
@@ -91,6 +127,14 @@ switch ($page) {
     case 'user_dashboard':
         $controller = new UserController();
         $controller->dashboard();
+        break;
+    case 'user_settings':
+        $controller = new UserController();
+        $controller->settings();
+        break;
+    case 'update_profile':
+        $controller = new UserController();
+        $controller->updateProfile();
         break;
     case 'test_db':
         $database = new Database();

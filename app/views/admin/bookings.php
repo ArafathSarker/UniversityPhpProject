@@ -50,7 +50,7 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 flex bg-gray-700 p-4">
-                    <a href="/logout" class="flex-shrink-0 w-full group block">
+                    <a href="/?page=admin_logout" class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>
                                 <i class="fas fa-sign-out-alt inline-block h-9 w-9 rounded-full text-white pt-2 pl-2 bg-gray-600"></i>
@@ -115,8 +115,13 @@
                                                     ৳<?php echo $booking['amount']; ?>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="#" class="text-primary hover:text-secondary mr-3">View</a>
-                                                    <a href="#" class="text-red-600 hover:text-red-900">Cancel</a>
+                                                    <a href="/?page=admin_booking_details&id=<?php echo $booking['id']; ?>" class="text-primary hover:text-secondary mr-3">View</a>
+                                                    <?php if($booking['status'] === 'Pending'): ?>
+                                                    <a href="/?page=admin_approve_booking&id=<?php echo $booking['id']; ?>" class="text-green-600 hover:text-green-900 mr-3">Approve</a>
+                                                    <?php endif; ?>
+                                                    <?php if($booking['status'] !== 'Cancelled'): ?>
+                                                    <a href="/?page=admin_cancel_booking&id=<?php echo $booking['id']; ?>" onclick="return confirm('Are you sure you want to cancel this booking?');" class="text-red-600 hover:text-red-900">Cancel</a>
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

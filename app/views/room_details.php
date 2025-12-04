@@ -53,7 +53,7 @@
                         </div>
                         <div class="text-right">
                             <p class="text-3xl font-bold text-primary">৳<?php echo $room['price']; ?></p>
-                            <p class="text-gray-500 text-sm">per hour</p>
+                            <p class="text-gray-500 text-sm">per <?php echo $room['rent_type'] == 'Monthly' ? 'month' : 'day'; ?></p>
                         </div>
                     </div>
 
@@ -112,26 +112,32 @@
                 <!-- Contact Form -->
                 <div class="bg-white rounded-lg shadow-lg p-6 sticky top-24">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Book this room</h3>
-                    <form action="/?page=add_to_cart" method="POST">
+                    <form action="/?page=book_room" method="POST">
+                        <input type="hidden" name="room_id" value="<?php echo $room['id']; ?>">
+                        <input type="hidden" name="rent_type" value="<?php echo $room['rent_type']; ?>">
+                        
+                        <?php if ($room['rent_type'] == 'Daily'): ?>
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                            <input type="date" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Check-in Date</label>
+                            <input type="date" name="check_in_date" required class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
                         </div>
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Time</label>
-                            <input type="time" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Check-out Date</label>
+                            <input type="date" name="check_out_date" required class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
+                        </div>
+                        <?php else: ?>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                            <input type="date" name="check_in_date" required class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
                         </div>
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (Hours)</label>
-                            <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
-                                <option>1 Hour</option>
-                                <option>2 Hours</option>
-                                <option>3 Hours</option>
-                                <option>4 Hours</option>
-                            </select>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (Months)</label>
+                            <input type="number" name="duration" min="1" value="1" required class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
                         </div>
+                        <?php endif; ?>
+
                         <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-md hover:bg-secondary transition shadow-md">
-                            Add to Cart
+                            Book Now
                         </button>
                     </form>
                 </div>

@@ -46,6 +46,44 @@ class User {
         return false;
     }
 
+    // Update User
+    public function update() {
+        $query = 'UPDATE ' . $this->table . '
+            SET
+                first_name = :first_name,
+                last_name = :last_name
+            WHERE id = :id';
+            
+        // If password is set, update it too
+        if(!empty($this->password)) {
+             $query = 'UPDATE ' . $this->table . '
+                SET
+                    first_name = :first_name,
+                    last_name = :last_name,
+                    password = :password
+                WHERE id = :id';
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->first_name = htmlspecialchars(strip_tags($this->first_name));
+        $this->last_name = htmlspecialchars(strip_tags($this->last_name));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $stmt->bindParam(':first_name', $this->first_name);
+        $stmt->bindParam(':last_name', $this->last_name);
+        $stmt->bindParam(':id', $this->id);
+        
+        if(!empty($this->password)) {
+            $stmt->bindParam(':password', $this->password);
+        }
+
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
     // Login User (Check if email exists)
     public function emailExists() {
         $query = 'SELECT id, first_name, last_name, password FROM ' . $this->table . ' WHERE email = :email LIMIT 0,1';
@@ -71,6 +109,45 @@ class User {
             return true;
         }
 
+        return false;
+    }
+
+    // Get User by ID
+    public function getUserById() {
+        $query = 'SELECT id, first_name, last_name, email, password FROM ' . $this->table . ' WHERE id = :id LIMIT 0,1';
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(':id', $this->id);
+
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->first_name = $row['first_name'];
+            $this->last_name = $row['last_name'];
+            $this->email = $row['email'];
+            $this->password = $row['password'];
+            return true;
+        }
+
+        return false;
+    }
+
+    // Delete User
+    public function delete() {
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        $stmt = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(':id', $this->id);
+
+        if($stmt->execute()) {
+            return true;
+        }
+
+        printf("Error: %s.\n", $stmt->error);
         return false;
     }
 }

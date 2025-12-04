@@ -16,16 +16,16 @@
                         <!-- Location -->
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                            <input type="text" name="location" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2" placeholder="City or Zip">
+                            <input type="text" name="location" value="<?php echo htmlspecialchars($_GET['location'] ?? ''); ?>" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2" placeholder="City or Zip">
                         </div>
 
                         <!-- Price Range -->
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
                             <div class="flex items-center space-x-2">
-                                <input type="number" name="min_price" placeholder="Min" class="w-1/2 border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
+                                <input type="number" name="min_price" value="<?php echo htmlspecialchars($_GET['min_price'] ?? ''); ?>" placeholder="Min" class="w-1/2 border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
                                 <span class="text-gray-500">-</span>
-                                <input type="number" name="max_price" placeholder="Max" class="w-1/2 border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
+                                <input type="number" name="max_price" value="<?php echo htmlspecialchars($_GET['max_price'] ?? ''); ?>" placeholder="Max" class="w-1/2 border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm border p-2">
                             </div>
                         </div>
 
@@ -33,16 +33,17 @@
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Room Type</label>
                             <div class="space-y-2">
+                                <?php $selectedTypes = $_GET['type'] ?? []; ?>
                                 <div class="flex items-center">
-                                    <input id="type-private" name="type[]" value="private" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                    <input id="type-private" name="type[]" value="private" type="checkbox" <?php echo (is_array($selectedTypes) && in_array('private', $selectedTypes)) || $selectedTypes == 'private' ? 'checked' : ''; ?> class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                                     <label for="type-private" class="ml-2 block text-sm text-gray-700">Private Room</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="type-shared" name="type[]" value="shared" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                    <input id="type-shared" name="type[]" value="shared" type="checkbox" <?php echo (is_array($selectedTypes) && in_array('shared', $selectedTypes)) || $selectedTypes == 'shared' ? 'checked' : ''; ?> class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                                     <label for="type-shared" class="ml-2 block text-sm text-gray-700">Shared Room</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="type-studio" name="type[]" value="studio" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                    <input id="type-studio" name="type[]" value="studio" type="checkbox" <?php echo (is_array($selectedTypes) && in_array('studio', $selectedTypes)) || $selectedTypes == 'studio' ? 'checked' : ''; ?> class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                                     <label for="type-studio" class="ml-2 block text-sm text-gray-700">Studio</label>
                                 </div>
                             </div>
@@ -52,16 +53,17 @@
                         <div class="mb-6">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Amenities</label>
                             <div class="space-y-2">
+                                <?php $selectedAmenities = $_GET['amenities'] ?? []; ?>
                                 <div class="flex items-center">
-                                    <input id="amenity-wifi" name="amenities[]" value="wifi" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                    <input id="amenity-wifi" name="amenities[]" value="wifi" type="checkbox" <?php echo is_array($selectedAmenities) && in_array('wifi', $selectedAmenities) ? 'checked' : ''; ?> class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                                     <label for="amenity-wifi" class="ml-2 block text-sm text-gray-700">Wifi</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="amenity-ac" name="amenities[]" value="ac" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                    <input id="amenity-ac" name="amenities[]" value="ac" type="checkbox" <?php echo is_array($selectedAmenities) && in_array('ac', $selectedAmenities) ? 'checked' : ''; ?> class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                                     <label for="amenity-ac" class="ml-2 block text-sm text-gray-700">Air Conditioning</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="amenity-parking" name="amenities[]" value="parking" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                    <input id="amenity-parking" name="amenities[]" value="parking" type="checkbox" <?php echo is_array($selectedAmenities) && in_array('parking', $selectedAmenities) ? 'checked' : ''; ?> class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                                     <label for="amenity-parking" class="ml-2 block text-sm text-gray-700">Parking</label>
                                 </div>
                             </div>
@@ -80,14 +82,22 @@
                     <h1 class="text-2xl font-bold text-gray-900">Available Rooms</h1>
                     <div class="flex items-center">
                         <span class="mr-2 text-sm text-gray-500">Sort by:</span>
-                        <select class="border-gray-300 rounded-md text-sm focus:ring-primary focus:border-primary border p-1">
-                            <option>Recommended</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Newest</option>
+                        <select id="sort-select" class="border-gray-300 rounded-md text-sm focus:ring-primary focus:border-primary border p-1" onchange="updateSort(this.value)">
+                            <option value="recommended" <?php echo (!isset($_GET['sort']) || $_GET['sort'] == 'recommended') ? 'selected' : ''; ?>>Recommended</option>
+                            <option value="price_asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? 'selected' : ''; ?>>Price: Low to High</option>
+                            <option value="price_desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? 'selected' : ''; ?>>Price: High to Low</option>
+                            <option value="newest" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'newest') ? 'selected' : ''; ?>>Newest</option>
                         </select>
                     </div>
                 </div>
+
+                <script>
+                    function updateSort(value) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        urlParams.set('sort', value);
+                        window.location.search = urlParams.toString();
+                    }
+                </script>
 
                 <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                     <?php foreach ($rooms as $room): ?>
@@ -95,7 +105,7 @@
                         <div class="relative h-48">
                             <img class="w-full h-full object-cover" src="<?php echo $room['image']; ?>" alt="<?php echo $room['title']; ?>">
                             <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-sm font-bold text-gray-900">
-                                ৳<?php echo $room['price']; ?>/hr
+                                ৳<?php echo $room['price']; ?>/<?php echo $room['rent_type'] == 'Monthly' ? 'mo' : 'day'; ?>
                             </div>
                             <div class="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium text-white">
                                 <?php echo $room['type']; ?>
